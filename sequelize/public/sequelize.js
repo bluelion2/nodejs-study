@@ -1,6 +1,7 @@
 document.querySelectorAll('#user-list tr').forEach((el) => {
-  el.addEventListener('click', function() {
+  el.addEventListener('click', () => {
     const id = el.querySelector('td').textContent;
+    console.log('id', id)
     getComment(id)
   })
 })
@@ -9,7 +10,8 @@ async function getUser() {
   try {
     const res = await axios.get('/users')
     const users = res.data
-    console.logg('users', users)
+    
+    console.log('users', users)
     const tbody = document.querySelector('#user-list tbody')
 
     tbody.innerHTML = ''
@@ -45,10 +47,10 @@ async function getUser() {
 
 async function getComment(id) {
   try {
-    const res =await axios.get(`/users/${id}/comments`)
+    const res = await axios.get(`/users/${id}/comments`)
     const comments = res.data
-    const tbdoy = document.querySelector('#comment-list tbody')
-    tobdy.innerHTML = ''
+    const tbody = document.querySelector('#comment-list tbody')
+    tbody.innerHTML = ''
 
     comments.map(function (comment) {
       const row = document.createElement('tr')
@@ -110,6 +112,7 @@ async function getComment(id) {
 
 document.getElementById('user-form').addEventListener('submit', async (e) => {
   e.preventDefault()
+  e.stopPropagation()
 
   const name = e.target.username.value
   const age = e.target.age.value
@@ -134,6 +137,9 @@ document.getElementById('user-form').addEventListener('submit', async (e) => {
 
 document.getElementById('comment-form').addEventListener('submit', async (e) => {
   e.preventDefault()
+  e.stopPropagation()
+
+
   const id = e.target.userid.value
   const comment = e.target.comment.value
   if (!id || !comment) {
@@ -149,5 +155,4 @@ document.getElementById('comment-form').addEventListener('submit', async (e) => 
 
   e.target.userid.value = ''
   e.target.comment.value = ''
-
 })
