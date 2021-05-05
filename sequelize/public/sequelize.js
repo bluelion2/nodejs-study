@@ -6,7 +6,7 @@ document.querySelectorAll('#user-list tr').forEach((el) => {
   })
 })
 
-async function getUser() {
+async function getUsers() {
   try {
     const res = await axios.get('/users')
     const users = res.data
@@ -58,15 +58,13 @@ async function getComment(id) {
       let td = document.createElement('td')
       td.textContent = comment.id
       row.appendChild(td)
-      
-
        
-      let td = document.createElement('td')
+      td = document.createElement('td')
       td.textContent = comment.User.name
       row.appendChild(td)
 
        
-      let td = document.createElement('td')
+      td = document.createElement('td')
       td.textContent = comment.comment
       row.appendChild(td)
 
@@ -112,33 +110,31 @@ async function getComment(id) {
 
 document.getElementById('user-form').addEventListener('submit', async (e) => {
   e.preventDefault()
-  e.stopPropagation()
 
   const name = e.target.username.value
   const age = e.target.age.value
   const married = e.target.married.checked
 
-  if (!name || !age || !married ) {
+  console.log('---', name, age, married)
+  if (!name || !age ) {
     alert('제대로입력하세요')
     return 
   }
 
   try {
     await axios.post('/users', { name, age, married })
-    getUser()
+    getUsers()
   } catch (error) {
     console.error(error)
   }
 
   e.target.username.value = ''
-  e.targeet.age.value = ''
+  e.target.age.value = ''
   e.target.married.checked = false
 })
 
 document.getElementById('comment-form').addEventListener('submit', async (e) => {
   e.preventDefault()
-  e.stopPropagation()
-
 
   const id = e.target.userid.value
   const comment = e.target.comment.value

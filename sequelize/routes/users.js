@@ -12,7 +12,8 @@ router.route('/').get(async (req, res, next) => {
     console.error(error)
     next(error)
   }
-}).post(async (req, res, next) => {
+})
+.post(async (req, res, next) => {
   try {
     const user = await User.create({
       name: req.body.name,
